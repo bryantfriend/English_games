@@ -10,11 +10,14 @@ window.startWordTrainBuilder = function() {
         style.innerHTML = `
             .train-game-bg {
                 background: linear-gradient(#b3e5fc, #81d4fa, #fff);
-                border-radius: 15px;
-                padding: 20px;
+                padding: 70px 20px 20px 20px;
                 position: relative;
                 overflow: hidden;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                height: 100%;
+                min-height: 100vh;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
             }
             .track {
                 position: absolute;
@@ -32,7 +35,7 @@ window.startWordTrainBuilder = function() {
                 display: flex;
                 align-items: flex-end;
                 gap: 5px;
-                transition: left 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+                transition: left 2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s ease-out;
             }
             .engine {
                 width: 120px;
@@ -135,12 +138,13 @@ window.startWordTrainBuilder = function() {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 2rem;
-                font-weight: bold;
+                font-family: var(--font-body);
                 color: #3498db;
                 cursor: pointer;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
                 transition: transform 0.1s, background-color 0.2s;
+                user-select: none;
+                touch-action: manipulation;
             }
             .letter-block:hover {
                 transform: scale(1.1);
@@ -170,16 +174,62 @@ window.startWordTrainBuilder = function() {
     
     // Ensure styles are added
     
-    const colors = ['#f1c40f', '#2ecc71', '#9b59b6', '#3498db', '#e67e22', '#1abc9c'];
-    const animals = window.Vocabulary ? window.Vocabulary.animals : ['dog', 'cat', 'lion', 'bird'];
-    // Filter to short words for train game
-    const shortWords = animals.filter(w => w.length <= 5);
-    const icons = window.ImagesData ? window.ImagesData.animalsIcons : { dog: '🐶', cat: '🐱', lion: '🦁', bird: '🐦' };
-    
-    let targetWord = '';
-    let currentCarIndex = 0;
-    
-    function initRound() {
+    // Show Category Menu
+    function showCategoryMenu() {
+        const container = document.getElementById('game-container');
+        if (!container) return;
+        container.innerHTML = `
+            <div class="train-game-bg" style="display:flex; flex-direction:column; align-items:center; padding-top: 50px; text-align:center;">
+                <h2 style="font-family: var(--font-heading); color: #2c3e50; font-size: 2rem; margin-top: 40px; margin-bottom: 20px;">🚂 Word Train Builder</h2>
+                <h3 style="font-family: var(--font-body); color: #34495e; margin-bottom: 20px;">Choose a Category:</h3>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; max-width: 600px;">
+                    <button class="category-btn" style="background-color: #2ecc71;" onclick="startWTBGame('animals')">🐶 Animals</button>
+                    <button class="category-btn" style="background-color: #e67e22;" onclick="startWTBGame('vegetables')">🥕 Vegetables</button>
+                    <button class="category-btn" style="background-color: #e74c3c;" onclick="startWTBGame('fruits')">🍎 Fruits</button>
+                    <button class="category-btn" style="background-color: #3498db;" onclick="startWTBGame('vehicles')">🚗 Vehicles</button>
+                    <button class="category-btn" style="background-color: #9b59b6;" onclick="startWTBGame('clothes')">👕 Clothes</button>
+                    <button class="category-btn" style="background-color: #f1c40f; color: #2c3e50;" onclick="startWTBGame('colors')">🎨 Colors</button>
+                </div>
+            </div>
+            <style>
+                .category-btn { padding: 15px 30px; font-size: 1.5rem; border: none; border-radius: 20px; color: white; cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.2); transition: transform 0.1s, box-shadow 0.1s; font-family: var(--font-body); }
+                .category-btn:active { transform: translateY(6px); box-shadow: 0 0px 0 rgba(0,0,0,0.2); }
+            </style>
+        `;
+    }
+
+    window.startWTBGame = function(categoryName) {
+        let chosenWords = [];
+        let icons = {};
+        
+        if (categoryName === 'animals') {
+            chosenWords = (window.Vocabulary && window.Vocabulary.animals) ? window.Vocabulary.animals : ['dog', 'cat'];
+            icons = (window.ImagesData && window.ImagesData.animalsIcons) ? window.ImagesData.animalsIcons : { dog: '🐶', cat: '🐱' };
+        } else if (categoryName === 'vegetables') {
+            chosenWords = (window.Vocabulary && window.Vocabulary.vegetables) ? window.Vocabulary.vegetables : ['corn'];
+            icons = (window.ImagesData && window.ImagesData.vegetablesIcons) ? window.ImagesData.vegetablesIcons : { corn: '🌽'};
+        } else if (categoryName === 'fruits') {
+            chosenWords = (window.Vocabulary && window.Vocabulary.fruits) ? window.Vocabulary.fruits : ['apple', 'pear'];
+            icons = (window.ImagesData && window.ImagesData.fruitsIcons) ? window.ImagesData.fruitsIcons : { apple: '🍎', pear: '🍐' };
+        } else if (categoryName === 'vehicles') {
+            chosenWords = (window.Vocabulary && window.Vocabulary.vehicles) ? window.Vocabulary.vehicles : ['car', 'bus'];
+            icons = (window.ImagesData && window.ImagesData.vehiclesIcons) ? window.ImagesData.vehiclesIcons : { car: '🚗', bus: '🚌' };
+        } else if (categoryName === 'clothes') {
+            chosenWords = (window.Vocabulary && window.Vocabulary.clothes) ? window.Vocabulary.clothes : ['shirt', 'hat'];
+            icons = (window.ImagesData && window.ImagesData.clothesIcons) ? window.ImagesData.clothesIcons : { shirt: '👕', hat: '🎩' };
+        } else if (categoryName === 'colors') {
+            chosenWords = (window.Vocabulary && window.Vocabulary.colors) ? window.Vocabulary.colors : ['red', 'blue'];
+            icons = (window.ImagesData && window.ImagesData.colorsIcons) ? window.ImagesData.colorsIcons : { red: '🔴', blue: '🔵' };
+        }
+
+        const shortWords = chosenWords.filter(w => w.length <= 5);
+        if(shortWords.length === 0) shortWords.push(chosenWords[0]);
+        const colors = ['#f1c40f', '#2ecc71', '#9b59b6', '#3498db', '#e67e22', '#1abc9c'];
+        
+        let targetWord = '';
+        let currentCarIndex = 0;
+        
+        function initRound() {
         if (!document.getElementById('game-container')) return;
         
         targetWord = shortWords[Math.floor(Math.random() * shortWords.length)];
@@ -204,13 +254,14 @@ window.startWordTrainBuilder = function() {
         
         let lettersHTML = '';
         scrmabledLetters.forEach((letter, i) => {
-            lettersHTML += `<div class="letter-block" id="letter-${i}" onclick="handleLetterClick('${letter}', 'letter-${i}')">${letter}</div>`;
+            lettersHTML += `<div class="letter-block" id="letter-${i}" data-letter="${letter}">${letter}</div>`;
         });
         
         const container = document.getElementById('game-container');
         container.innerHTML = `
             <div class="train-game-bg">
-                <button onclick="startWordTrainBuilder()" style="position: absolute; top:5px; right: 5px;" class="launch-btn game-btn">Skip</button>
+                <button onclick="startWordTrainBuilder()" style="position: absolute; top:15px; right: 15px; border-radius: 15px; font-size: 1rem; padding: 5px 15px; background: #fff; border: 2px solid #ccc; cursor: pointer;">📑 Categories</button>
+                <h2 style="text-align:center; font-family:var(--font-heading); color:#2c3e50; margin-bottom:10px;">🚂 Word Train Builder <span style="font-size:1rem;color:#7f8c8d;">${targetWord.length} letters</span></h2>
                 <div class="target-image" id="target-image">${icons[targetWord] || '❓'}</div>
                 <div class="letters-container">${lettersHTML}</div>
                 
@@ -232,11 +283,21 @@ window.startWordTrainBuilder = function() {
         // Drive train in
         setTimeout(() => {
             const train = document.getElementById('train-container');
-            if (train) train.style.left = '10%';
+            if (train) {
+                train.style.left = '10%';
+                train.style.transform = 'translateX(0px)';
+            }
         }, 100);
-        
-        // Expose to window for inline onclick
-        window.handleLetterClick = handleLetterClick;
+        // Expose to window for inline onclick not needed if we bind directly
+        const blocks = container.querySelectorAll('.letter-block');
+        blocks.forEach(block => {
+             block.onpointerdown = function(e) {
+                 e.preventDefault();
+                 if (this.classList.contains('used')) return;
+                 const l = this.getAttribute('data-letter');
+                 handleLetterClick(l, this.id);
+             };
+        });
     }
     
     function handleLetterClick(letter, blockId) {
@@ -250,17 +311,20 @@ window.startWordTrainBuilder = function() {
             const carContent = document.getElementById(`car-content-${currentCarIndex}`);
             if(carContent) {
                  carContent.textContent = letter.toUpperCase();
-                 // Add small bounce
-                 carContent.parentElement.style.transform = 'scale(1.2) translateY(-10px)';
-                 setTimeout(() => {
-                      if(carContent.parentElement) carContent.parentElement.style.transform = 'scale(1) translateY(0)';
-                 }, 200);
             }
             
-            ScoreSystem.addScore(10);
-            ScoreSystem.addCorrect();
+            ScoreSystem.addCorrect(10);
             
             currentCarIndex++;
+            
+            const trainOuter = document.getElementById('train-container');
+            if (trainOuter && window.innerWidth < 800) {
+                // Keep the active car roughly in view on smaller screens
+                if (currentCarIndex > 2) {
+                    const shiftX = (currentCarIndex - 2) * 75; // approx 70px car + 5px gap
+                    trainOuter.style.transform = `translateX(-${shiftX}px)`;
+                }
+            }
             
             if (currentCarIndex >= targetWord.length) {
                 // Word completed!
@@ -302,7 +366,10 @@ window.startWordTrainBuilder = function() {
              
              setTimeout(initRound, 2000);
         }
-    }
+    } // end winRound
     
     initRound();
+    } // end startWTBGame
+    
+    showCategoryMenu();
 };

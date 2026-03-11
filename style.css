@@ -177,6 +177,53 @@ h1 {
     align-items: center;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Fullscreen Game Mode */
+.game-area.fullscreen-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    display: block;
+}
+
+.game-area.fullscreen-mode #game-container {
+    width: 100%;
+    height: 100%;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--light);
+    color: var(--dark);
+    border: 2px solid var(--primary);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 9001;
+    transition: transform 0.2s, background 0.2s;
+    font-family: var(--font-body);
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    background: #f1f8ff;
+}
+
+.back-btn:active {
+    transform: translateY(2px);
 }
 
 .welcome-message {

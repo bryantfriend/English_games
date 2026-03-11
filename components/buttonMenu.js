@@ -2,12 +2,15 @@
 const ButtonMenu = {
     gamesList: {
         'kids': [
-            { id: 'alphabet-match', name: 'Alphabet Match' },
-            { id: 'color-click', name: 'Color Click' },
-            { id: 'animal-sound', name: 'Animal Sounds' },
-            { id: 'phonics-bubble-pop', name: 'Phonics Bubble Pop' },
-            { id: 'word-train-builder', name: 'Word Train Builder' },
-            { id: 'magic-word-reveal', name: 'Magic Word Reveal' }
+            { id: 'alphabet-match', name: '🔤 Alphabet Match' },
+            { id: 'color-click', name: '🎨 Color Click' },
+            { id: 'animal-sound', name: '🐾 Animal Sounds' },
+            { id: 'phonics-bubble-pop', name: '🎈 Phonics Bubble Pop' },
+            { id: 'word-train-builder', name: '🚂 Word Train Builder' },
+            { id: 'magic-word-reveal', name: '✨ Magic Word Reveal' },
+            { id: 'svg-word-match', name: '🔗 Word Match' },
+            { id: 'shadow-match', name: '🌒 Shadow Match' },
+            { id: 'flashlight-finder', name: '🔦 Flashlight Finder' }
         ],
         'basic-adult': [
             { id: 'word-builder', name: 'Word Builder' },
