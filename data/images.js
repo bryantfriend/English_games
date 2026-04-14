@@ -13,6 +13,12 @@ const ImagesData = {
         apple: '🍎', banana: '🍌', orange: '🍊', grape: '🍇', strawberry: '🍓', watermelon: '🍉',
         pineapple: '🍍', mango: '🥭', peach: '🍑', cherry: '🍒', lemon: '🍋', pear: '🍐'
     },
+    foodsIcons: {
+        apple: '🍎', banana: '🍌', orange: '🍊', strawberry: '🍓',
+        carrot: '🥕', tomato: '🍅', broccoli: '🥦', corn: '🌽',
+        pizza: '🍕', burger: '🍔', bread: '🍞', egg: '🥚',
+        cheese: '🧀', milk: '🥛', juice: '🧃', cake: '🍰'
+    },
     vehiclesIcons: {
         car: '🚗', bus: '🚌', train: '🚆', airplane: '✈️', boat: '⛵', bicycle: '🚲', 
         helicopter: '🚁', truck: '🚚', submarine: '🛥️', rocket: '🚀'

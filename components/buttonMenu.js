@@ -5,6 +5,8 @@ const ButtonMenu = {
             { id: 'alphabet-match', name: '🔤 Alphabet Match' },
             { id: 'color-click', name: '🎨 Color Click' },
             { id: 'animal-sound', name: '🐾 Animal Sounds' },
+            { id: 'food-truck-sorter', name: '🍔 Food Truck Sorter' },
+            { id: 'word-scramble-kids', name: '🫧 Word Scramble Splash' },
             { id: 'phonics-bubble-pop', name: '🎈 Phonics Bubble Pop' },
             { id: 'word-train-builder', name: '🚂 Word Train Builder' },
             { id: 'magic-word-reveal', name: '✨ Magic Word Reveal' },
@@ -14,11 +16,14 @@ const ButtonMenu = {
         ],
         'basic-adult': [
             { id: 'word-builder', name: 'Word Builder' },
+            { id: 'word-scramble-basic', name: 'Word Scramble Studio' },
+            { id: 'chef-verb-o-rama', name: '👨‍🍳 Chef Verb-o-Rama' },
             { id: 'sentence-order', name: 'Sentence Order' },
             { id: 'picture-vocab', name: 'Picture Vocab' }
         ],
         'intermediate': [
             { id: 'phrasal-verbs', name: 'Phrasal Verbs' },
+            { id: 'word-scramble-intermediate', name: 'Lexicon Scramble' },
             { id: 'conversation-choices', name: 'Conversation Choices' },
             { id: 'grammar-fix', name: 'Grammar Fix' }
         ]
